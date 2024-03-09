@@ -11,6 +11,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { createIssueSchema } from "@/app/validationSchemas";
+import ErrorMesage from "@/app/components/ErrorMesage";
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
@@ -50,11 +51,7 @@ const NewIssuePage = () => {
           <TextField.Input placeholder="Title" {...register("title")} />
         </TextField.Root>
 
-        {errors.title && (
-          <Text color="red" as="p">
-            {errors.title.message}
-          </Text>
-        )}
+        <ErrorMesage>{errors.title?.message}</ErrorMesage>
 
         <Controller
           name="description"
@@ -64,11 +61,7 @@ const NewIssuePage = () => {
           )}
         />
 
-        {errors.description && (
-          <Text color="red" as="p">
-            {errors.description.message}
-          </Text>
-        )}
+        <ErrorMesage>{errors.description?.message}</ErrorMesage>
 
         <Button>Submit Issue</Button>
       </form>
