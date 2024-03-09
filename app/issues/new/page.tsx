@@ -12,12 +12,15 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { createIssueSchema } from "@/app/validationSchemas";
 import ErrorMesage from "@/app/components/ErrorMesage";
+import Spinner from "@/app/components/Spinner";
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
 const NewIssuePage = () => {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [isSubmitting, setSubmitting] = useState(false);
+
   const {
     register,
     control,
@@ -29,12 +32,14 @@ const NewIssuePage = () => {
 
   const SendDataToApi = async (data: IssueForm) => {
     try {
+      setSubmitting(true);
       const res = await axios.post("/api/issue", data);
       console.log("success", res.data);
       console.log("data", data);
       router.push("/issues");
     } catch (error) {
       setError("Something Went Wrong");
+      setSubmitting(false);
     }
   };
 
@@ -63,7 +68,9 @@ const NewIssuePage = () => {
 
         <ErrorMesage>{errors.description?.message}</ErrorMesage>
 
-        <Button>Submit Issue</Button>
+        <Button disabled={isSubmitting}>
+          Submit the Issue {isSubmitting && <Spinner />}{" "}
+        </Button>
       </form>
     </div>
   );
