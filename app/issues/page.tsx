@@ -3,6 +3,7 @@ import React from "react";
 import { Button, Table } from "@radix-ui/themes";
 import prisma from "@/prisma/client";
 import Link from "next/link";
+import IssueStatusBadge from "../components/issueStatusBadge";
 
 // eslint-disable-next-line @next/next/no-async-client-component
 const IssuePage = async () => {
@@ -12,7 +13,7 @@ const IssuePage = async () => {
     <div>
       <div className="mb-5">
         <Button>
-          <Link href="/new">New Issue</Link>
+          <Link href="/issues/new">New Issue</Link>
         </Button>
       </div>
 
@@ -34,7 +35,7 @@ const IssuePage = async () => {
               <Table.ColumnHeaderCell>{issue.title}</Table.ColumnHeaderCell>
 
               <Table.ColumnHeaderCell className="hidden md:table-cell">
-                {issue.status}
+                <IssueStatusBadge status={issue.status} />
               </Table.ColumnHeaderCell>
 
               <Table.ColumnHeaderCell className="hidden md:table-cell">
