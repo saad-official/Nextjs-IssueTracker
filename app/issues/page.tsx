@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import { Button, Table } from "@radix-ui/themes";
 import prisma from "@/prisma/client";
@@ -31,7 +30,11 @@ const IssuePage = async () => {
         <Table.Body>
           {issues.map((issue) => (
             <Table.Row key={issue.id}>
-              <Table.ColumnHeaderCell>{issue.title}</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell>
+                <Link href={`/issues/${issue.id}`}>
+                {issue.title}
+                </Link>
+                </Table.ColumnHeaderCell>
 
               <Table.ColumnHeaderCell className="hidden md:table-cell">
                 <IssueStatusBadge status={issue.status} />
