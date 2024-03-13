@@ -13,15 +13,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { createIssueSchema } from "@/app/validationSchemas";
-import ErrorMesage from "@/app/components/ErrorMesage";
-import Spinner from "@/app/components/Spinner";
+import { Spinner, ErrorMesage } from "@/app/components";
 
-const SimpleMDE = dynamic(
-  () => import('react-simplemde-editor'),
-  {
-    ssr:false
-  }
-)
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
