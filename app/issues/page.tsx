@@ -1,15 +1,11 @@
-import React from "react";
-import { Button, Table } from "@radix-ui/themes";
 import prisma from "@/prisma/client";
+import { Table } from "@radix-ui/themes";
 import Link from "../components/Link";
 import IssueStatusBadge from "../components/issueStatusBadge";
-import delay from "delay";
 import IssueAction from "./IssueAction";
 
-// eslint-disable-next-line @next/next/no-async-client-component
 const IssuePage = async () => {
   const issues = await prisma.issue.findMany();
-  await delay(2000);
 
   return (
     <div>
@@ -31,10 +27,8 @@ const IssuePage = async () => {
           {issues.map((issue) => (
             <Table.Row key={issue.id}>
               <Table.ColumnHeaderCell>
-                <Link href={`/issues/${issue.id}`}>
-                {issue.title}
-                </Link>
-                </Table.ColumnHeaderCell>
+                <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
+              </Table.ColumnHeaderCell>
 
               <Table.ColumnHeaderCell className="hidden md:table-cell">
                 <IssueStatusBadge status={issue.status} />

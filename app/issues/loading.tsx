@@ -1,16 +1,15 @@
-import { Button, Table } from "@radix-ui/themes";
+import { Table } from "@radix-ui/themes";
 import React from "react";
 
 import { Skeleton } from "@radix-ui/themes";
 import "react-loading-skeleton/dist/skeleton.css";
-import Link from "next/link";
 import IssueAction from "./IssueAction";
 
 const LoadingIssuePage = () => {
   const issues = [1, 2, 3, 4, 5];
   return (
     <div>
-        <IssueAction />
+      <IssueAction />
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
