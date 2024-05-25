@@ -12,7 +12,7 @@ import { z } from "zod";
 import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { createIssueSchema } from "@/app/validationSchemas";
+import { issueSchema } from "@/app/validationSchemas";
 import { Spinner, ErrorMesage } from "@/app/components";
 import { Issue } from "@prisma/client";
 
@@ -20,13 +20,13 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
 });
 
-type IssueFormData = z.infer<typeof createIssueSchema>;
+type IssueFormData = z.infer<typeof issueSchema>;
 
-interface IssueProps  {
-  issue?: Issue
+interface IssueProps {
+  issue?: Issue;
 }
 
-const IssueForm = ({issue}:IssueProps) => {
+const IssueForm = ({ issue }: IssueProps) => {
   const router = useRouter();
   const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
@@ -37,7 +37,7 @@ const IssueForm = ({issue}:IssueProps) => {
     handleSubmit,
     formState: { errors },
   } = useForm<IssueFormData>({
-    resolver: zodResolver(createIssueSchema),
+    resolver: zodResolver(issueSchema),
   });
 
   const SendDataToApi = async (data: IssueFormData) => {
@@ -63,7 +63,11 @@ const IssueForm = ({issue}:IssueProps) => {
 
       <form className="space-y-3" onSubmit={handleSubmit(SendDataToApi)}>
         <TextField.Root>
-          <TextField.Input defaultValue={issue?.title} placeholder="Title" {...register("title")} />
+          <TextField.Input
+            defaultValue={issue?.title}
+            placeholder="Title"
+            {...register("title")}
+          />
         </TextField.Root>
 
         <ErrorMesage>{errors.title?.message}</ErrorMesage>
