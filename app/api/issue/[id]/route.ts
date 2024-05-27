@@ -1,7 +1,10 @@
 import { issueSchema } from "@/app/validationSchemas";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function PATCh(request: NextRequest, params: { id: string }) {
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   const body = await request.json();
 
   const validation = issueSchema.safeParse(body);
@@ -18,8 +21,8 @@ export async function PATCh(request: NextRequest, params: { id: string }) {
   const updatedIssue = await prisma?.issue.update({
     where: { id: issue.id },
     data: {
-      title: issue.title,
-      description: issue.description,
+      title: body.title,
+      description: body.description,
     },
   });
 

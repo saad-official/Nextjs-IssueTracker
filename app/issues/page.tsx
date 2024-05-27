@@ -45,4 +45,7 @@ const IssuePage = async () => {
   );
 };
 
+// we tell nextjs to out of static renerding.
+export const dynamic = "force-dynamic";
+
 export default IssuePage;
