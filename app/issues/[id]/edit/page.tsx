@@ -1,6 +1,13 @@
 import { notFound } from "next/navigation";
 import React from "react";
-import IssueForm from "../../_components/issueForm";
+
+import dynamic from "next/dynamic";
+import IssueFormSkeleton from "../../_components/issueFormSkeleton";
+
+const IssueForm = dynamic(() => import("@/app/issues/_components/issueForm"), {
+  ssr: false,
+  loading: () => <IssueFormSkeleton />,
+});
 
 interface Props {
   params: { id: string };
@@ -13,10 +20,14 @@ const EditIssuePage = async ({ params }: Props) => {
     },
   });
 
-  if(!issue) notFound();
+  if (!issue) notFound();
 
-
-  return <div> <IssueForm issue={issue} /></div>;
+  return (
+    <div>
+      {" "}
+      <IssueForm issue={issue} />
+    </div>
+  );
 };
 
 export default EditIssuePage;
