@@ -44,7 +44,7 @@ const IssueForm = ({ issue }: IssueProps) => {
       else res = await axios.post("/api/issue", data);
       console.log("success", res.data);
       console.log("data", data);
-      router.push("/issues");
+      router.push("/issues/list");
       router.refresh();
     } catch (error) {
       setError("Something Went Wrong");
