@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import React from "react";
 import { AiFillBug } from "react-icons/ai";
+import Skeleton from "@/app/components/Skeleton";
 import {
   Avatar,
   Box,
@@ -38,7 +39,7 @@ const Navbar = () => {
 const AuthStatus = () => {
   const { status, data: session } = useSession();
 
-  if (status === "loading") return null;
+  if (status === "loading") return <Skeleton width="3rem" />;
 
   if (status === "unauthenticated")
     return (
