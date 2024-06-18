@@ -2,19 +2,25 @@
 import { User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import Skeleton from "@/app/components/Skeleton";
 
 const AssigneeSelect = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  //   const [users, setUsers] = useState<User[]>([]);
 
-  useEffect(() => {
-    async function fetchUser() {
-      const { data } = await axios<User[]>("/api/users");
-      setUsers(data);
-    }
+  const {
+    data: users,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: [""],
+    queryFn: () => axios.get<User[]>("/api/users").then((res) => res.data),
+  });
 
-    fetchUser();
-  }, []);
+  if (isLoading) return <Skeleton height={34} />;
+
+  if (error) return null;
 
   return (
     <Select.Root>
