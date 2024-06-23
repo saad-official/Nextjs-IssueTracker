@@ -1,5 +1,6 @@
 import authOptions from "@/app/auth/authOptions";
 import { issueSchema } from "@/app/validationSchemas";
+import { error } from "console";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -16,6 +17,21 @@ export async function PATCH(
   if (!validation.success)
     return NextResponse.json(validation.error.format(), { status: 400 });
 
+  const { assignedToUserId } = body;
+  if (assignedToUserId) {
+    const user = await prisma?.user.findUnique({
+      where: { id: assignedToUserId },
+    });
+
+    if (!user)
+      return NextResponse.json(
+        {
+          error: "Invalid User",
+        },
+        { status: 404 }
+      );
+  }
+
   const issue = await prisma?.issue.findUnique({
     where: { id: params.id },
   });
@@ -28,6 +44,7 @@ export async function PATCH(
     data: {
       title: body.title,
       description: body.description,
+      assignedToUserId: assignedToUserId,
     },
   });
 
